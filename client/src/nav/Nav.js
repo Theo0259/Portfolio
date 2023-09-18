@@ -42,7 +42,7 @@ export default function Nav() {
   const pageTitle = getPageTitle();
 
   const isCurrentPage = (navClass) => {
-    return navClass === getNavPositionClass;
+    return navClass === navPositionClass;
   };
 
   const renderNavLink = (to, imgSrc, altText, navClass) => {
