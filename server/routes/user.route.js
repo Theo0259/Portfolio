@@ -1,6 +1,18 @@
 const router = require("express").Router();
 const userController = require("../controllers/user.controller");
 
+//Create a new personal
+router.post("/create-personal", userController.createPersonal);
+
+//GetPersonalById
+router.get("/getPersonal/:id", userController.getPersonal);
+
+//Modifier une personal
+router.put("/personal/put/:id", userController.editPersonal);
+
+//Supprimer une career
+router.delete("/personal/delete/:id", userController.deletePersonal);
+
 //Create a new career
 router.post("/create-career", userController.createCareer);
 

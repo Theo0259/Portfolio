@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Use cors
 app.use(
   cors({
-    origin: "http://127.0.0.1:8000",
+    origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
   })
 );

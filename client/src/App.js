@@ -8,6 +8,7 @@ import Contact from "./contact/Contact";
 import "./styles/app.css";
 import Background from "./background/Background.js";
 import PlayerStats from "./playerStats/PlayerStats.js";
+// import SubheadingsData from "./about/subheadingsData.js";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Background />
       <Routes>
         <Route path="/" element={<About />} />
+        {/* <Route path="/" element={<SubheadingsData />} /> */}
         <Route path="/skills" element={<Skills />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />

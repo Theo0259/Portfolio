@@ -10,6 +10,108 @@ const conn = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+const createPersonal = (req, res) => {
+  const { title, text } = req.body;
+  if (!title || !text) {
+    return res.status(400).json({ error: "Données manquantes" });
+  }
+  const query = "INSERT INTO personal (title, text) VALUES (?, ?)";
+  conn.query(query, [title, text], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({
+        error: "Erreur lors de l'insertion des données",
+        result,
+      });
+    } else {
+      res.status(200).json({ message: "Personal enregistré" });
+    }
+  });
+};
+
+// Contrôleur pour obtenir un seul personal par ID
+const getPersonal = (req, res) => {
+  const personalId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
+  const query = "SELECT * FROM personal WHERE id_personal = ?"; // Remplacez "users" par le nom de votre table
+
+  conn.query(query, [personalId], (err, result) => {
+    if (err) {
+      console.log("Erreur lors de la récupération de personal : " + err);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération de la personal" });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ error: "Personal non trouvé" });
+      } else {
+        res.status(200).json({ result }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
+      }
+    }
+  });
+};
+
+//Modifier un personal
+const editPersonal = (req, res) => {
+  const personalId = req.params.id; // Assuming the ID is passed in the request parameters
+  const { title, text } = req.body;
+
+  // Vérifie si au moins un des champs à mettre à jour est présent
+  if (!title && !text) {
+    return res.status(400).json({ error: "Aucune donnée à mettre à jour" });
+  }
+
+  // Préparation de la requête SQL pour la mise à jour des données utilisateur dans la base de données
+  const query = "UPDATE personal SET title=?, text=? WHERE id_personal=?";
+
+  // Collecte les valeurs qui doivent être mises à jour et ajoute 'personalId' as dernière valeur
+  const valuesToUpdate = [
+    title,
+    text,
+    personalId, // Using the 'personalId' extracted from URL parameters here
+  ];
+
+  // Exécute la requête SQL avec les données fournies
+  conn.query(query, valuesToUpdate, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la mise à jour des données : " + e);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la mise à jour des données", result });
+    } else {
+      res.status(200).json({ message: "Personal mis à jour avec succès" });
+    }
+  });
+};
+
+// Delete a personal by ID
+const deletePersonal = (req, res) => {
+  const personalId = req.params.id; // Assuming the ID is passed in the request parameters
+  // Vérifie si l'ID personal est présent dans les paramètres de la requêtea
+  if (!personalId) {
+    return res.status(400).json({ error: "Identifiant de personal manquant" });
+  }
+  // Préparation de la requête SQL pour supprimer personal de la base de données
+  const query = "DELETE FROM personal WHERE id_personal = ?";
+  // Exécute la requête SQL avec l'ID personal fourni
+  conn.query(query, [personalId], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la suppression de personal : " + e);
+      res.status(500).json({
+        error: "Erreur lors de la suppression de personal",
+        result,
+      });
+    } else {
+      // Vérifie si des lignes ont été affectées, ce qui indique que l'utilisateur a été supprimé avec succès
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: "Personal supprimé avec succès" });
+      } else {
+        // Si aucune ligne n'a été affectée, cela signifie que l'utilisateur avec l'ID donné n'a pas été trouvé
+        res.status(404).json({ error: "Personal non trouvé" });
+      }
+    }
+  });
+};
+
 const createCareer = (req, res) => {
   const { title, text } = req.body;
   if (!title || !text) {
@@ -24,7 +126,7 @@ const createCareer = (req, res) => {
         result,
       });
     } else {
-      res.status(200).json({ message: "Utilisateur enregistré" });
+      res.status(200).json({ message: "Career enregistré" });
     }
   });
 };
@@ -324,6 +426,10 @@ const deleteProject = (req, res) => {
 };
 
 module.exports = {
+  createPersonal,
+  getPersonal,
+  editPersonal,
+  deletePersonal,
   createCareer,
   getCareer,
   editCareer,
