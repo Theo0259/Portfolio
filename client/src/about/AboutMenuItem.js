@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-// import "../styles/aboutMenu.css";
+import "../styles/aboutMenu.css";
 
 const AboutMenuItem = ({ title, active, onClick }) => {
   return (

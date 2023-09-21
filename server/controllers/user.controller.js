@@ -366,13 +366,13 @@ const deleteCareer = (req, res) => {
   });
 };
 
-const createSkill = (req, res) => {
-  const { title, number } = req.body;
-  if (!title || !number) {
+const createFrontEnd = (req, res) => {
+  const { title, level } = req.body;
+  if (!title || !level) {
     return res.status(400).json({ error: "Données manquantes" });
   }
-  const query = "INSERT INTO skill (title, number) VALUES (?, ?)";
-  conn.query(query, [title, number], (e, result) => {
+  const query = "INSERT INTO front_end (title, level) VALUES (?, ?)";
+  conn.query(query, [title, level], (e, result) => {
     if (e) {
       console.log("Erreur lors de l'insertion des données : " + e);
       res.status(500).json({
@@ -380,25 +380,25 @@ const createSkill = (req, res) => {
         result,
       });
     } else {
-      res.status(200).json({ message: "skill enregistré" });
+      res.status(200).json({ message: "front-end enregistré" });
     }
   });
 };
 
 // Contrôleur pour obtenir un seul career par ID
-const getSkill = (req, res) => {
-  const skillId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
-  const query = "SELECT * FROM skill WHERE id_skill = ?"; // Remplacez "users" par le nom de votre table
+const getFrontEnd = (req, res) => {
+  const frontEndId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
+  const query = "SELECT * FROM front-end WHERE id_front_end = ?"; // Remplacez "users" par le nom de votre table
 
-  conn.query(query, [skillId], (err, result) => {
+  conn.query(query, [frontEndId], (err, result) => {
     if (err) {
-      console.log("Erreur lors de la récupération de career : " + err);
+      console.log("Erreur lors de la récupération de front-end : " + err);
       res
         .status(500)
-        .json({ error: "Erreur lors de la récupération de la career" });
+        .json({ error: "Erreur lors de la récupération de la front-end" });
     } else {
       if (result.length === 0) {
-        res.status(404).json({ error: "Career non trouvé" });
+        res.status(404).json({ error: "Front-end non trouvé" });
       } else {
         res.status(200).json({ skill: result[0] }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
       }
@@ -406,24 +406,37 @@ const getSkill = (req, res) => {
   });
 };
 
+//Get all users
+const getAllFrontEnd = (req, res) => {
+  const query = "SELECT * FROM front_end";
+  conn.query(query, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({ error: "Erreur lors de l'insertion des données" });
+    } else {
+      res.status(200).json({ result });
+    }
+  });
+};
+
 //Modifier un skill
-const editskill = (req, res) => {
-  const skillId = req.params.id; // Assuming the ID is passed in the request parameters
-  const { title, number } = req.body;
+const editFrontEnd = (req, res) => {
+  const frontEndId = req.params.id; // Assuming the ID is passed in the request parameters
+  const { title, level } = req.body;
 
   // Vérifie si au moins un des champs à mettre à jour est présent
-  if (!title && !number) {
+  if (!title && !level) {
     return res.status(400).json({ error: "Aucune donnée à mettre à jour" });
   }
 
   // Préparation de la requête SQL pour la mise à jour des données utilisateur dans la base de données
-  const query = "UPDATE skill SET title=?, number=? WHERE id_skill=?";
+  const query = "UPDATE front-end SET title=?, level=? WHERE id_front_end=?";
 
   // Collecte les valeurs qui doivent être mises à jour et ajoute 'skillId' as dernière valeur
   const valuesToUpdate = [
     title,
-    number,
-    skillId, // Using the 'skillId' extracted from URL parameters here
+    level,
+    frontEndId, // Using the 'skillId' extracted from URL parameters here
   ];
 
   // Exécute la requête SQL avec les données fournies
@@ -434,22 +447,135 @@ const editskill = (req, res) => {
         .status(500)
         .json({ error: "Erreur lors de la mise à jour des données", result });
     } else {
-      res.status(200).json({ message: "Skill mis à jour avec succès" });
+      res.status(200).json({ message: "Front-end mis à jour avec succès" });
     }
   });
 };
 
 // Delete a skill
-const deleteSkill = (req, res) => {
-  const skillId = req.params.id; // Assuming the ID is passed in the request parameters
+const deleteFrontEnd = (req, res) => {
+  const frontEndId = req.params.id; // Assuming the ID is passed in the request parameters
   // Vérifie si l'ID de l'utilisateur est présent dans les paramètres de la requêtea
-  if (!skillId) {
-    return res.status(400).json({ error: "Skill manquant" });
+  if (!frontEndId) {
+    return res.status(400).json({ error: "FrontEnd manquant" });
   }
   // Préparation de la requête SQL pour supprimer l'utilisateur de la base de données
-  const query = "DELETE FROM skill WHERE id_skill = ?";
+  const query = "DELETE FROM front_end WHERE id_front_end = ?";
   // Exécute la requête SQL avec l'ID de l'utilisateur fourni
-  conn.query(query, [skillId], (e, result) => {
+  conn.query(query, [frontEndId], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la suppression du skill : " + e);
+      res.status(500).json({
+        error: "Erreur lors de la suppression du skill",
+        result,
+      });
+    } else {
+      // Vérifie si des lignes ont été affectées, ce qui indique que l'utilisateur a été supprimé avec succès
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: "Skill supprimé avec succès" });
+      } else {
+        // Si aucune ligne n'a été affectée, cela signifie que l'utilisateur avec l'ID donné n'a pas été trouvé
+        res.status(404).json({ error: "Skill non trouvé" });
+      }
+    }
+  });
+};
+
+const createBackEnd = (req, res) => {
+  const { title, level } = req.body;
+  if (!title || !level) {
+    return res.status(400).json({ error: "Données manquantes" });
+  }
+  const query = "INSERT INTO back_end (title, level) VALUES (?, ?)";
+  conn.query(query, [title, level], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({
+        error: "Erreur lors de l'insertion des données",
+        result,
+      });
+    } else {
+      res.status(200).json({ message: "back-end enregistré" });
+    }
+  });
+};
+
+// Contrôleur pour obtenir un seul career par ID
+const getBackEnd = (req, res) => {
+  const backEndId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
+  const query = "SELECT * FROM back_end WHERE id_back_end = ?"; // Remplacez "users" par le nom de votre table
+
+  conn.query(query, [backEndId], (err, result) => {
+    if (err) {
+      console.log("Erreur lors de la récupération de back-end : " + err);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération de la back-end" });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ error: "Back-end non trouvé" });
+      } else {
+        res.status(200).json({ skill: result[0] }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
+      }
+    }
+  });
+}; //Get all users
+const getAllBackEnd = (req, res) => {
+  const query = "SELECT * FROM back_end";
+  conn.query(query, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({ error: "Erreur lors de l'insertion des données" });
+    } else {
+      res.status(200).json({ result });
+    }
+  });
+};
+
+//Modifier un skill
+const editBackEnd = (req, res) => {
+  const backEndId = req.params.id; // Assuming the ID is passed in the request parameters
+  const { title, level } = req.body;
+
+  // Vérifie si au moins un des champs à mettre à jour est présent
+  if (!title && !level) {
+    return res.status(400).json({ error: "Aucune donnée à mettre à jour" });
+  }
+
+  // Préparation de la requête SQL pour la mise à jour des données utilisateur dans la base de données
+  const query = "UPDATE back_end SET title=?, level=? WHERE id_back_end=?";
+
+  // Collecte les valeurs qui doivent être mises à jour et ajoute 'skillId' as dernière valeur
+  const valuesToUpdate = [
+    title,
+    level,
+    backEndId, // Using the 'skillId' extracted from URL parameters here
+  ];
+
+  // Exécute la requête SQL avec les données fournies
+  conn.query(query, valuesToUpdate, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la mise à jour des données : " + e);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la mise à jour des données", result });
+    } else {
+      res.status(200).json({ message: "Back-end mis à jour avec succès" });
+    }
+  });
+};
+
+// Delete a skill
+const deleteBackEnd = (req, res) => {
+  const backEndId = req.params.id; // Assuming the ID is passed in the request parameters
+  // Vérifie si l'ID de l'utilisateur est présent dans les paramètres de la requêtea
+  if (!backEndId) {
+    return res.status(400).json({ error: "BackEnd manquant" });
+  }
+  // Préparation de la requête SQL pour supprimer l'utilisateur de la base de données
+  const query = "DELETE FROM back-end WHERE id_back_end = ?";
+  // Exécute la requête SQL avec l'ID de l'utilisateur fourni
+  conn.query(query, [backEndId], (e, result) => {
     if (e) {
       console.log("Erreur lors de la suppression du skill : " + e);
       res.status(500).json({
@@ -590,10 +716,16 @@ module.exports = {
   getAllCareer,
   editCareer,
   deleteCareer,
-  createSkill,
-  getSkill,
-  editskill,
-  deleteSkill,
+  createFrontEnd,
+  getFrontEnd,
+  getAllFrontEnd,
+  editFrontEnd,
+  deleteFrontEnd,
+  createBackEnd,
+  getBackEnd,
+  getAllBackEnd,
+  editBackEnd,
+  deleteBackEnd,
   createProject,
   getProject,
   editProject,

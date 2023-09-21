@@ -43,17 +43,35 @@ router.put("/career/put/:id", userController.editCareer);
 //Supprimer une career
 router.delete("/career/delete/:id", userController.deleteCareer);
 
-//Create a new skill
-router.post("/create-skill", userController.createSkill);
+//Create a new front-end
+router.post("/create-front-end", userController.createFrontEnd);
 
-//GetSkill
-router.get("/getSkill/:id", userController.getSkill);
+//Getfront-end
+router.get("/getFrontEnd/:id", userController.getFrontEnd);
 
-//Modifier un skill
-router.put("/skill/put/:id", userController.editskill);
+//GetAllFrontEnd
+router.get("/getAllFrontEnd", userController.getAllFrontEnd);
 
-//Supprimer un skill
-router.delete("/skill/delete/:id", userController.deleteSkill);
+//Modifier un front-end
+router.put("/front-end/put/:id", userController.editFrontEnd);
+
+//Supprimer un front-end
+router.delete("/front-end/delete/:id", userController.deleteFrontEnd);
+
+//Create a new back-end
+router.post("/create-back-end", userController.createBackEnd);
+
+//Getback-end
+router.get("/getBackEnd/:id", userController.getBackEnd);
+
+//GetAllBackEnd
+router.get("/getAllBackEnd", userController.getAllBackEnd);
+
+//Modifier un back-end
+router.put("/back-end/put/:id", userController.editBackEnd);
+
+//Supprimer un back-end
+router.delete("/back-end/delete/:id", userController.deleteBackEnd);
 
 //Create a new project
 router.post("/create-project", userController.createProject);
