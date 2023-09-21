@@ -174,6 +174,19 @@ const getEducation = (req, res) => {
   });
 };
 
+//Get all users
+const getAllEducation = (req, res) => {
+  const query = "SELECT * FROM education";
+  conn.query(query, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({ error: "Erreur lors de l'insertion des données" });
+    } else {
+      res.status(200).json({ result });
+    }
+  });
+};
+
 //Modifier un education
 const editEducation = (req, res) => {
   const educationId = req.params.id; // Assuming the ID is passed in the request parameters
@@ -569,6 +582,7 @@ module.exports = {
   deletePersonal,
   createEducation,
   getEducation,
+  getAllEducation,
   editEducation,
   deleteEducation,
   createCareer,

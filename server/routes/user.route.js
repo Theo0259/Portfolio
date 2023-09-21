@@ -19,6 +19,9 @@ router.post("/create-education", userController.createEducation);
 //GetEducationById
 router.get("/getEducation/:id", userController.getEducation);
 
+//GetAllCareer
+router.get("/getAllEducation", userController.getAllEducation);
+
 //Modifier une education
 router.put("/education/put/:id", userController.editEducation);
 

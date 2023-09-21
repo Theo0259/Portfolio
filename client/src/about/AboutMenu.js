@@ -92,6 +92,8 @@ export default function AboutMenu() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [careerData, setCareerData] = useState([]);
   const [careerDataLoaded, setCareerDataLoaded] = useState(false);
+  const [educationData, setEducationData] = useState([]);
+  const [educationDataLoaded, setEducationDataLoaded] = useState(false);
 
   useEffect(() => {
     axios
@@ -113,6 +115,27 @@ export default function AboutMenu() {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    if (activeMenuItem === 3 && !educationDataLoaded) {
+      axios
+        .get("http://localhost:8000/getAllEducation")
+        .then((response) => {
+          if (response.data && response.data.result) {
+            setEducationData(response.data.result);
+            setEducationDataLoaded(true);
+          } else {
+            console.log(
+              "Les données de education ne sont pas reçues : ",
+              response.data
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [activeMenuItem, educationDataLoaded]);
 
   useEffect(() => {
     if (activeMenuItem === 3 && !careerDataLoaded) {
@@ -174,6 +197,16 @@ export default function AboutMenu() {
           <div>
             <p>{subheadingsData.title}</p>
             <p>{subheadingsData.text}</p>
+          </div>
+        )}
+        {activeMenuTitle === "EDUCATION" && educationDataLoaded && (
+          <div>
+            {educationData.map((educationItem, index) => (
+              <div key={index}>
+                <h3>{educationItem.title}</h3>
+                <p>{educationItem.text}</p>
+              </div>
+            ))}
           </div>
         )}
         {activeMenuTitle === "CAREER" && careerDataLoaded && (
