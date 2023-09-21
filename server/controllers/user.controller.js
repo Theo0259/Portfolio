@@ -50,6 +50,28 @@ const getPersonal = (req, res) => {
   });
 };
 
+// // Contrôleur pour obtenir un seul personal par ID
+// const getPersonal = (req, res) => {
+//   const personalId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
+//   const query = "SELECT * FROM personal WHERE id_personal = ?"; // Remplacez "users" par le nom de votre table
+
+//   conn.query(query, [personalId], (err, result) => {
+//     if (err) {
+//       console.log("Erreur lors de la récupération de personal : " + err);
+//       res
+//         .status(500)
+//         .json({ error: "Erreur lors de la récupération de la personal" });
+//     } else {
+//       if (result.length === 0) {
+//         res.status(404).json({ error: "Personal non trouvé" });
+//       } else {
+//         // Au lieu de renvoyer un objet avec une clé "result", renvoyez directement le tableau de données
+//         res.status(200).json(result);
+//       }
+//     }
+//   });
+// };
+
 //Modifier un personal
 const editPersonal = (req, res) => {
   const personalId = req.params.id; // Assuming the ID is passed in the request parameters
@@ -112,6 +134,108 @@ const deletePersonal = (req, res) => {
   });
 };
 
+const createEducation = (req, res) => {
+  const { title, text } = req.body;
+  if (!title || !text) {
+    return res.status(400).json({ error: "Données manquantes" });
+  }
+  const query = "INSERT INTO education (title, text) VALUES (?, ?)";
+  conn.query(query, [title, text], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({
+        error: "Erreur lors de l'insertion des données",
+        result,
+      });
+    } else {
+      res.status(200).json({ message: "Personal enregistré" });
+    }
+  });
+};
+
+// Contrôleur pour obtenir un seul education par ID
+const getEducation = (req, res) => {
+  const educationId = req.params.id; // Récupérez l'ID de l'utilisateur depuis les paramètres de la requête
+  const query = "SELECT * FROM education WHERE id_education = ?"; // Remplacez "users" par le nom de votre table
+
+  conn.query(query, [educationId], (err, result) => {
+    if (err) {
+      console.log("Erreur lors de la récupération de personal : " + err);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération de education" });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ error: "Personal non trouvé" });
+      } else {
+        res.status(200).json({ result }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
+      }
+    }
+  });
+};
+
+//Modifier un education
+const editEducation = (req, res) => {
+  const educationId = req.params.id; // Assuming the ID is passed in the request parameters
+  const { title, text } = req.body;
+
+  // Vérifie si au moins un des champs à mettre à jour est présent
+  if (!title && !text) {
+    return res.status(400).json({ error: "Aucune donnée à mettre à jour" });
+  }
+
+  // Préparation de la requête SQL pour la mise à jour des données utilisateur dans la base de données
+  const query = "UPDATE education SET title=?, text=? WHERE id_education=?";
+
+  // Collecte les valeurs qui doivent être mises à jour et ajoute 'educationId' as dernière valeur
+  const valuesToUpdate = [
+    title,
+    text,
+    educationId, // Using the 'personalId' extracted from URL parameters here
+  ];
+
+  // Exécute la requête SQL avec les données fournies
+  conn.query(query, valuesToUpdate, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la mise à jour des données : " + e);
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la mise à jour des données", result });
+    } else {
+      res.status(200).json({ message: "Personal mis à jour avec succès" });
+    }
+  });
+};
+
+// Delete a personal by ID
+const deleteEducation = (req, res) => {
+  const educationId = req.params.id; // Assuming the ID is passed in the request parameters
+  // Vérifie si l'ID personal est présent dans les paramètres de la requêtea
+  if (!educationId) {
+    return res.status(400).json({ error: "Identifiant de education manquant" });
+  }
+  // Préparation de la requête SQL pour supprimer personal de la base de données
+  const query = "DELETE FROM education WHERE id_education = ?";
+  // Exécute la requête SQL avec l'ID personal fourni
+  conn.query(query, [educationId], (e, result) => {
+    if (e) {
+      console.log("Erreur lors de la suppression de personal : " + e);
+      res.status(500).json({
+        error: "Erreur lors de la suppression de personal",
+        result,
+      });
+    } else {
+      // Vérifie si des lignes ont été affectées, ce qui indique que l'utilisateur a été supprimé avec succès
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: "Personal supprimé avec succès" });
+      } else {
+        // Si aucune ligne n'a été affectée, cela signifie que l'utilisateur avec l'ID donné n'a pas été trouvé
+        res.status(404).json({ error: "Personal non trouvé" });
+      }
+    }
+  });
+};
+
 const createCareer = (req, res) => {
   const { title, text } = req.body;
   if (!title || !text) {
@@ -148,6 +272,19 @@ const getCareer = (req, res) => {
       } else {
         res.status(200).json({ career: result[0] }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
       }
+    }
+  });
+};
+
+//Get all users
+const getAllCareer = (req, res) => {
+  const query = "SELECT * FROM career";
+  conn.query(query, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({ error: "Erreur lors de l'insertion des données" });
+    } else {
+      res.status(200).json({ result });
     }
   });
 };
@@ -430,8 +567,13 @@ module.exports = {
   getPersonal,
   editPersonal,
   deletePersonal,
+  createEducation,
+  getEducation,
+  editEducation,
+  deleteEducation,
   createCareer,
   getCareer,
+  getAllCareer,
   editCareer,
   deleteCareer,
   createSkill,

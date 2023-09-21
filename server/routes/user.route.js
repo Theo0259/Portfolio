@@ -13,11 +13,26 @@ router.put("/personal/put/:id", userController.editPersonal);
 //Supprimer une career
 router.delete("/personal/delete/:id", userController.deletePersonal);
 
+//Create a new education
+router.post("/create-education", userController.createEducation);
+
+//GetEducationById
+router.get("/getEducation/:id", userController.getEducation);
+
+//Modifier une education
+router.put("/education/put/:id", userController.editEducation);
+
+//Supprimer une education
+router.delete("/education/delete/:id", userController.deleteEducation);
+
 //Create a new career
 router.post("/create-career", userController.createCareer);
 
 //GetCareerById
 router.get("/getCareer/:id", userController.getCareer);
+
+//GetAllCareer
+router.get("/getAllCareer", userController.getAllCareer);
 
 //Modifier une career
 router.put("/career/put/:id", userController.editCareer);
