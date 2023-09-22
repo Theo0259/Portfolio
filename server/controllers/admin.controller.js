@@ -92,6 +92,7 @@ const register = async (req, res) => {
 // Fonction de connexion des administrateurs
 const login = async (req, res) => {
   const { email, password } = req.body;
+
   if (email != email_admin) {
     res.status(401).json({ message: "L'email n'est pas valide." });
     return;

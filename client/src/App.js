@@ -8,7 +8,8 @@ import Contact from "./contact/Contact";
 import "./styles/app.css";
 import Background from "./background/Background.js";
 import PlayerStats from "./playerStats/PlayerStats.js";
-// import SubheadingsData from "./about/subheadingsData.js";
+import Login from "./login/login.js";
+import DashBoard from "./dashBoard/DashBoard.js";
 
 const App = () => {
   return (
@@ -17,10 +18,11 @@ const App = () => {
       <Background />
       <Routes>
         <Route path="/" element={<About />} />
-        {/* <Route path="/" element={<SubheadingsData />} /> */}
         <Route path="/skills" element={<Skills />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<DashBoard />} />
       </Routes>
       <PlayerStats />
     </Router>
