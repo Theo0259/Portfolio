@@ -519,7 +519,9 @@ const getBackEnd = (req, res) => {
       }
     }
   });
-}; //Get all users
+};
+
+//Get all users
 const getAllBackEnd = (req, res) => {
   const query = "SELECT * FROM back_end";
   conn.query(query, (e, result) => {
@@ -630,8 +632,21 @@ const getProject = (req, res) => {
       if (result.length === 0) {
         res.status(404).json({ error: "Project non trouvé" });
       } else {
-        res.status(200).json({ career: result[0] }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
+        res.status(200).json({ project: result[0] }); // Vous renvoyez le premier résultat, car il ne devrait y avoir qu'un seul utilisateur avec cet ID
       }
+    }
+  });
+};
+
+//Get all users
+const getAllProjects = (req, res) => {
+  const query = "SELECT * FROM project";
+  conn.query(query, (e, result) => {
+    if (e) {
+      console.log("Erreur lors de l'insertion des données : " + e);
+      res.status(500).json({ error: "Erreur lors de l'insertion des données" });
+    } else {
+      res.status(200).json({ result });
     }
   });
 };
@@ -728,6 +743,7 @@ module.exports = {
   deleteBackEnd,
   createProject,
   getProject,
+  getAllProjects,
   editProject,
   deleteProject,
 };

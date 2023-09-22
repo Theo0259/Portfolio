@@ -1,7 +1,12 @@
 import React, { Component } from "react";
+import ProjectsMenu from "./projectsMenu";
 
 export default class Projects extends Component {
   render() {
-    return <div>Projects</div>;
+    return (
+      <>
+        <ProjectsMenu />
+      </>
+    );
   }
 }

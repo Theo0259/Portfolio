@@ -76,8 +76,11 @@ router.delete("/back-end/delete/:id", userController.deleteBackEnd);
 //Create a new project
 router.post("/create-project", userController.createProject);
 
-//GetSkill
+//GetProject
 router.get("/getProject/:id", userController.getProject);
+
+//GetallProject
+router.get("/getAllProjects", userController.getAllProjects);
 
 //Modifier une career
 router.put("/project/put/:id", userController.editProject);
