@@ -1,0 +1,99 @@
+.Competence {
+  width: 90%;
+  margin: auto;
+  margin-top: 130px;
+}
+
+.Competence h1 {
+  color: white;
+  font-size: 30px;
+  font-family: "IM Fell DW Pica", serif;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.blockCRUD {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.CRUD {
+  width: 500px;
+  height: 550px;
+  background-color: #d9d9d91d;
+  border: 2px solid #706c6c;
+  border-radius: 25px;
+  /* display: flex;
+    flex-wrap: wrap; */
+}
+
+.CRUD .buttonCrud {
+  width: 95%;
+  margin: auto;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+  row-gap: 10px;
+}
+
+.buttonCrud button {
+  padding: 10px 20px;
+  margin: 0px auto;
+  border-radius: 25px;
+  border: 2px solid #00e0ff;
+  background: none;
+  color: white;
+  font-family: "Indie Flower", cursive;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Liste {
+  background-color: #d9d9d91d;
+  border: 2px solid #706c6c;
+  border-radius: 25px;
+  width: 550px;
+  height: 550px;
+  overflow: auto;
+  font-family: "IM Fell DW Pica", serif;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+}
+
+.Liste h2 {
+  margin: 10px;
+}
+
+.Liste p {
+  color: white;
+  font-size: 22px;
+  font-family: "Indie Flower", cursive;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.ListeConnaissance {
+  width: 90%;
+  margin: auto;
+}
+
+.ListeConnaissance span {
+  color: #00e0ff;
+  font-size: 25px;
+}
+
+.blockListe {
+  border: 2px solid #00e0ff;
+  margin-bottom: 10px;
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.188);
+  padding: 5px;
+}
+
+.blockListe img {
+  width: 50px;
+}

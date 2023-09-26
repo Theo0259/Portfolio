@@ -89,7 +89,6 @@ const register = async (req, res) => {
   });
 };
 
-// Fonction de connexion des administrateurs
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -111,8 +110,16 @@ const login = async (req, res) => {
       res.status(401).json({ message: "Le mot de passe n'est pas valide" });
       return;
     }
-    // Générer le token
-    const token = jwt.sign({ adminId: admin.id }, secretKey, {
+
+    // Créer un payload avec des données supplémentaires
+    const payload = {
+      adminId: admin.id,
+      email: admin.email,
+      // Vous pouvez ajouter d'autres données ici si nécessaire
+    };
+
+    // Générer le token en incluant le payload
+    const token = jwt.sign(payload, secretKey, {
       expiresIn: "1h",
     });
 

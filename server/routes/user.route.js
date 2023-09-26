@@ -10,7 +10,7 @@ router.get("/getPersonal/:id", userController.getPersonal);
 //Modifier une personal
 router.put("/personal/put/:id", userController.editPersonal);
 
-//Supprimer une career
+//Supprimer une personal
 router.delete("/personal/delete/:id", userController.deletePersonal);
 
 //Create a new education

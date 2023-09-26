@@ -10,6 +10,12 @@ import Background from "./background/Background.js";
 import PlayerStats from "./playerStats/PlayerStats.js";
 import Login from "./login/login.js";
 import DashBoard from "./dashBoard/DashBoard.js";
+import CrudPersonal from "./dashBoard/crud/crudPersonal.js";
+import CrudEducation from "./dashBoard/crud/crudEducation.js";
+import CrudCareer from "./dashBoard/crud/crudCareer.js";
+import CrudFrontEnd from "./dashBoard/crud/crudFrontEnd.js";
+import CrudBackEnd from "./dashBoard/crud/crudBackEnd.js";
+import CrudProject from "./dashBoard/crud/crudProject.js";
 
 const App = () => {
   return (
@@ -23,6 +29,12 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/CrudPersonal" element={<CrudPersonal />} />
+        <Route path="/CrudEducation" element={<CrudEducation />} />
+        <Route path="/CrudCareer" element={<CrudCareer />} />
+        <Route path="/CrudFrontEnd" element={<CrudFrontEnd />} />
+        <Route path="/CrudBackEnd" element={<CrudBackEnd />} />
+        <Route path="/CrudProject" element={<CrudProject />} />
       </Routes>
       <PlayerStats />
     </Router>

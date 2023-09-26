@@ -430,7 +430,7 @@ const editFrontEnd = (req, res) => {
   }
 
   // Préparation de la requête SQL pour la mise à jour des données utilisateur dans la base de données
-  const query = "UPDATE front-end SET title=?, level=? WHERE id_front_end=?";
+  const query = "UPDATE front_end SET title=?, level=? WHERE id_front_end=?";
 
   // Collecte les valeurs qui doivent être mises à jour et ajoute 'skillId' as dernière valeur
   const valuesToUpdate = [
@@ -575,7 +575,7 @@ const deleteBackEnd = (req, res) => {
     return res.status(400).json({ error: "BackEnd manquant" });
   }
   // Préparation de la requête SQL pour supprimer l'utilisateur de la base de données
-  const query = "DELETE FROM back-end WHERE id_back_end = ?";
+  const query = "DELETE FROM back_end WHERE id_back_end = ?";
   // Exécute la requête SQL avec l'ID de l'utilisateur fourni
   conn.query(query, [backEndId], (e, result) => {
     if (e) {
